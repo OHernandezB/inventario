@@ -9,5 +9,8 @@ public class InventarioDTO {
 
     private Integer idInventario;
     private Integer stockDisponible;
+    private Integer idProducto;
+    private Integer idSucursal;
+    private Integer idUsuario;
 
 }
