@@ -16,16 +16,8 @@ public class Inventario {
     @Column(name="id_inventario")
     private Integer id_Inventario;
     private Integer stockDisponible;
-
-    @OneToOne
-    @JoinColumn(name = "id_producto", referencedColumnName = "id_producto")
-    private Integer idProducto;
-    private String nombreProducto;
-    private String descripcionProducto;
-    private Double precioProducto;
-    private String categoriaProducto;
-    private String activo;
-
-
+    private Integer id_producto;
+    private Integer id_sucursal;
+    private Integer id_usuario;
 
 }
