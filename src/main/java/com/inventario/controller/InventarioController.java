@@ -1,73 +1,54 @@
 package com.inventario.controller;
 
-import java.util.List;
-import java.util.Optional;
-
-
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-
-import org.springframework.web.bind.annotation.PutMapping;
-
-import com.inventario.models.Inventario;
+import com.inventario.dto.InventarioDTO;
 import com.inventario.service.InventarioService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+
+
 
 
 @RestController
-@RequestMapping("/api/inventario")
+@RequestMapping("/api/v1/inventario")
 public class InventarioController {
 
-    private final InventarioService inventarioService;
+    @Autowired
+    private InventarioService inventarioService;
 
+    @PostMapping
+    public ResponseEntity<InventarioDTO> crear(@RequestBody InventarioDTO dto){
+        return ResponseEntity.ok(inventarioService.crear(dto));
+    }
 
-    public InventarioController(InventarioService inventarioService) {
-        this.inventarioService = inventarioService;
+    @GetMapping
+    public ResponseEntity<List<InventarioDTO>> listar(){
+        return ResponseEntity.ok(inventarioService.lista());
     }
     
-    @GetMapping
-    public ResponseEntity<List<Inventario>> getAll(){
-        return ResponseEntity.ok(inventarioService.findById());
-    }
-
     @GetMapping("/{id}")
-    public ResponseEntity<?> getById(@PathVariable Integer id){
-        Optional<Inventario> inventario = inventarioService.findById(id);
-        if (inventario.isPresent()) {
-            return ResponseEntity.ok(inventario.get());
-        } else {
-            return ResponseEntity.notFound().build();
+        public ResponseEntity<InventarioDTO> obetener(@PathVariable Integer id){
+            return ResponseEntity.ok(inventarioService.obInventarioDTO(id));
         }
-    }
+    
 
-    @PostMapping("/nuevo")
-    public ResponseEntity<Inventario> CrearInventario(@RequestBody Inventario inventario) {
-        Inventario nuevoInventario = inventarioService.savInventario(inventario);
-        return ResponseEntity.ok(nuevoInventario);
-    }
 
-    @PutMapping("/ajuste/{id}")
-    public ResponseEntity<Inventario> ActualizarInventario(@PathVariable Integer id, @RequestBody Inventario inventario) {
-       
-        Inventario inventarioActalizado = inventarioService.ActualizarInventario(id, inventario);
-        return ResponseEntity.ok(inventarioActalizado);
-    }
+    @PutMapping("/{id}")
+        public ResponseEntity<InventarioDTO> actualizar(@PathVariable Integer id, @RequestBody InventarioDTO dto){
+            return ResponseEntity.ok(inventarioService.actualizar(id, dto));
+        } 
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> deleteInventario(@PathVariable Integer id) {
-        if (inventarioService.findById(id).isPresent()) {
-            inventarioService.deleteInventario(id);
-            return ResponseEntity.ok("Inventario eliminado con éxito");
-        } else {
-            return ResponseEntity.notFound().build();
+        public ResponseEntity<Void> eliminar(@PathVariable Integer id){
+            inventarioService.eliminar(id);
+            return ResponseEntity.noContent().build();
         }
+    
+
     }
     
 
 
-}
+
