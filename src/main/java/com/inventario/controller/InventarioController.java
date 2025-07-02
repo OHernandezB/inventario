@@ -8,11 +8,9 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-
-
-
 @RestController
-@RequestMapping("/api/v1/inventario")
+@RequestMapping("/api/inventario")
+@CrossOrigin(origins = "*")
 public class InventarioController {
 
     @Autowired
@@ -29,25 +27,21 @@ public class InventarioController {
     }
     
     @GetMapping("/{id}")
-        public ResponseEntity<InventarioDTO> obetener(@PathVariable Integer id){
-            return ResponseEntity.ok(inventarioService.obInventarioDTO(id));
-        }
-    
-
+    public ResponseEntity<InventarioDTO> obtener(@PathVariable Integer id){
+        return ResponseEntity.ok(inventarioService.obtenerInventarioDTO(id));
+    }
 
     @PutMapping("/{id}")
-        public ResponseEntity<InventarioDTO> actualizar(@PathVariable Integer id, @RequestBody InventarioDTO dto){
-            return ResponseEntity.ok(inventarioService.actualizar(id, dto));
-        } 
+    public ResponseEntity<InventarioDTO> actualizar(@PathVariable Integer id, @RequestBody InventarioDTO dto){
+        return ResponseEntity.ok(inventarioService.actualizar(id, dto));
+    } 
 
     @DeleteMapping("/{id}")
-        public ResponseEntity<Void> eliminar(@PathVariable Integer id){
-            inventarioService.eliminar(id);
-            return ResponseEntity.noContent().build();
-        }
-    
-
+    public ResponseEntity<Void> eliminar(@PathVariable Integer id){
+        inventarioService.eliminar(id);
+        return ResponseEntity.noContent().build();
     }
+}
     
 
 

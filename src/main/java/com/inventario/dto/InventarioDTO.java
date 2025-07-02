@@ -1,16 +1,19 @@
 package com.inventario.dto;
 
 import lombok.*;
+import org.springframework.hateoas.RepresentationModel;
+import org.springframework.hateoas.server.core.Relation;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class InventarioDTO {
+@EqualsAndHashCode(callSuper = true)
+@Relation(collectionRelation = "inventarios", itemRelation = "inventario")
+public class InventarioDTO extends RepresentationModel<InventarioDTO> {
 
     private Integer idInventario;
     private Integer stockDisponible;
-    private Integer idProducto;
-    private Integer idSucursal;
-    private Integer idUsuario;
-
+    private String nombreProducto;
+    private String nombreSucursal;
+    private String nombreUsuario;
 }
